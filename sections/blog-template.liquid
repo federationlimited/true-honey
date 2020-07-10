@@ -1,31 +1,38 @@
 {% paginate blog.articles by 12 %}
 
 <div class="page-width">
-  <header class="section-header text-center">
+  <header class="section-header text-left">
     <h1>{{ page_title }}</h1>
-    {% if blog.tags.size > 0 %}
-      <div class="blog-filter">
-        <label class="blog-filter__label select-label" for="BlogTagFilter">{{ 'collections.filters.title_tags' | t }}</label>
-        <div class="select-group">
-          <select id="BlogTagFilter" aria-describedby="a11y-refresh-page-message a11y-selection-message">
-            <option value="{{ blog.url }}">{{ 'blogs.article.all_topics' | t }}</option>
-            {% for tag in blog.all_tags %}
-              <option value="{{ blog.url }}/tagged/{{ tag | handleize }}" {% if current_tags contains tag %}selected{% endif %}>{{ tag }}</option>
-            {% endfor %}
-          </select>
-          {% include 'icon-chevron-down' %}
-        </div>
+    <div class="grid">
+      <div class="grid__item medium-up--one-half text-left">
+        Welcome to The True Honey Co. blog. It’s where to come to peek behind the scenes, meet our True Friends, get Manuka honey recipes, handy tips, musings and many other amusements. Grab a spoon and dig in. You can also sign up to get all this goodness thanks to the wonders of email.
       </div>
-    {% endif %}
+    </div>
   </header>
 </div>
 
+<div class="page-width">
+  {% if blog.tags.size > 0 %}
+    <div class="blog-filter">
+      <label class="blog-filter__label select-label" for="BlogTagFilter">{{ 'collections.filters.title_tags' | t }}</label>
+      <div class="select-group">
+        <select id="BlogTagFilter" aria-describedby="a11y-refresh-page-message a11y-selection-message">
+          <option value="{{ blog.url }}">{{ 'blogs.article.all_topics' | t }}</option>
+          {% for tag in blog.all_tags %}
+            <option value="{{ blog.url }}/tagged/{{ tag | handleize }}" {% if current_tags contains tag %}selected{% endif %}>{{ tag }}</option>
+          {% endfor %}
+        </select>
+        {% include 'icon-chevron-down' %}
+      </div>
+    </div>
+  {% endif %}
+</div>
 
 {% if section.settings.layout == 'grid' %}
   <div class="page-width">
     <ul class="grid grid--uniform grid--blog">
       {% for article in blog.articles %}
-        <li class="grid__item medium-up--one-third">
+        <li class="grid__item medium-up--one-half">
           <a href="{{ article.url }}" class="article__link">
             {% if article.image %}
               {% capture img_id %}ArticleImage-{{ article.image.id }}{% endcapture %}
@@ -51,31 +58,11 @@
                 </div>
               </noscript>
             {% endif %}
-
-            <h2 class="article__title h3{% if article.image %} article__title--has-image{% endif %}">
-              {{ article.title | escape }}
-            </h2>
+            
           </a>
 
           <div class="article__grid-meta{% if article.image %} article__grid-meta--has-image{% endif %}">
-            {% if section.settings.blog_show_author %}
-              <span class="article__author">{{ 'blogs.article.by_author' | t: author: article.author }}</span>
-            {% endif %}
-
-            {% if section.settings.blog_show_date %}
-              <span class="article__date">
-                {{ article.published_at | time_tag: format: 'date' }}
-              </span>
-            {% endif %}
-
-            <div class="rte article__grid-excerpt">
-              {% if article.excerpt.size > 0 %}
-                {{ article.excerpt }}
-              {% else %}
-                {{ article.content | strip_html | truncate: 150 }}
-              {% endif %}
-            </div>
-
+            
             {% if article.tags.size > 0 %}
               <div class="article__tags rte">
                 <ul class="list--inline" aria-label="{{ 'blogs.article.tags' | t }}">
@@ -86,6 +73,20 @@
                   {% endfor %}
                 </ul>
               </div>
+            {% endif %}
+
+            <h2 class="article__title h3{% if article.image %} article__title--has-image{% endif %}">
+              <a href="{{ article.url }}" class="article__link">{{ article.title | escape }}</a>
+            </h2>
+
+            {% if section.settings.blog_show_author %}
+              <span class="article__author">{{ 'blogs.article.by_author' | t: author: article.author }}</span>
+            {% endif %}
+
+            {% if section.settings.blog_show_date %}
+              <span class="article__date">
+                {{ article.published_at | time_tag: format: 'date' }}
+              </span>
             {% endif %}
 
             <ul class="list--inline article__meta-buttons">

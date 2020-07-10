@@ -1,10 +1,33 @@
+/*================ VARIABLES ================*/
+/*============================================================================
+  Grid Breakpoints and Class Names
+    - Do not change the variable names
+    - Breakpoint pixel values are used in the window.theme.breakpoints object
+    - These values are hard-copied within `search.js` and must be kept in sync!
+==============================================================================*/
+$grid-medium: 750px;
+$grid-large: 990px;
+$grid-widescreen: 1400px;
+$grid-gutter: 30px;
+$grid-gutter-mobile: 22px;
 
+/*================ footer.liquid ================*/
+.site-footer__social-icons {
+ padding-top: 0;
+ @media (min-width: $grid-medium) {
+  padding-top: 0;
+ }
+}
 
-.adam-custom-css {
- color: #555;
- font-size: 55px;
- span {
-  color: red;
-  font-size: 77px;
+/*================ collection-template.liquid ================*/
+.filters-toolbar__tag-list-item {
+ display: inline-block;
+}
+.filters-toolbar__tag-list-a {
+ padding: 5px;
+ border: solid 1px #000;
+ &[selected='selected'] {
+  color: #fff;
+  background-color: #000;
  }
 }

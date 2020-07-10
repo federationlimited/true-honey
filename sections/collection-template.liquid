@@ -55,7 +55,7 @@
       {% endif %}
     {% else %}
       <div class="page-width">
-        <div class="section-header text-center">
+        <div class="section-header text-left">
           <h1>
             <span role="text">
               <span class="visually-hidden">{{ 'collections.general.collection_label' | t }}: </span>
@@ -84,14 +84,12 @@
                   <div class="filters-toolbar__item-child">
                     <label class="filters-toolbar__label select-label" for="FilterTags">{{ 'collections.filters.title_tags' | t }}</label>
                     <div class="filters-toolbar__input-wrapper select-group">
-                      <select class="filters-toolbar__input hidden" name="FilterTags" id="FilterTags" aria-describedby="a11y-refresh-page-message a11y-selection-message">
-                        <option value="{{ collection.url }}">{{ 'collections.filters.all_tags' | t }}</option>
+                      <ul class="filters-toolbar__tag-list">
                         {% for tag in collection.all_tags %}
                           {%- assign new_url = tag | link_to_tag: tag | split: 'href="' | last | split: '"' | first -%}
-                          <option value="{{ new_url }}"{% if current_tags contains tag %} selected="selected"{% endif %}>{{ tag }}</option>
+                          <li class="filters-toolbar__tag-list-item"><a class="filters-toolbar__tag-list-a" href="{{ new_url }}"{% if current_tags contains tag %} selected="selected"{% endif %}>{{ tag }}</a></li>
                         {% endfor %}
-                      </select>
-                      {% include 'icon-chevron-down' %}
+                      </ul>
                     </div>
                   </div>
                 {% endunless %}
