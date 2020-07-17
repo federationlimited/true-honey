@@ -14,10 +14,10 @@
 <div class="page-width">
   {% if blog.tags.size > 0 %}
     <div class="blog-filter">
-      <label class="blog-filter__label select-label" for="BlogTagFilter">{{ 'collections.filters.title_tags' | t }}</label>
+      <label class="blog-filter__label select-label" for="BlogTagFilter">Filter by:</label>
       <div class="select-group">
         <select id="BlogTagFilter" aria-describedby="a11y-refresh-page-message a11y-selection-message">
-          <option value="{{ blog.url }}">{{ 'blogs.article.all_topics' | t }}</option>
+          <option value="{{ blog.url }}">Latest</option>
           {% for tag in blog.all_tags %}
             <option value="{{ blog.url }}/tagged/{{ tag | handleize }}" {% if current_tags contains tag %}selected{% endif %}>{{ tag }}</option>
           {% endfor %}

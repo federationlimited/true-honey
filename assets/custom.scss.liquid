@@ -18,6 +18,9 @@ $grid-gutter-mobile: 22px;
   padding-top: 0;
  }
 }
+.site-footer__newsletter-container {
+  background-color: #ebebeb;
+}
 
 /*================ collection-template.liquid ================*/
 .filters-toolbar__tag-list-item {
@@ -30,4 +33,36 @@ $grid-gutter-mobile: 22px;
   color: #fff;
   background-color: #000;
  }
+}
+
+/*================ blog-template.liquid ================*/
+.blog-filter {
+ justify-content: left;
+ margin-bottom: 35px;
+ @media (min-width: $grid-medium) {
+  margin-bottom: 55px;
+ }
+}
+
+/*================ Reviews app ================*/
+.spr-reviews {
+  display: flex;
+  .spr-review {
+    flex: 0 1 33.333333%;
+    padding-right: 24px;
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+  .spr-pagination {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .spr-pagination-next {
+    position: relative;
+  }
+  .spr-pagination-prev {
+    position: relative;
+  }
 }
