@@ -61,12 +61,6 @@
     {%- assign inline_list = true -%}
   {%- when 3 -%}
     {%- assign footer_item = 'site-footer__item--one-third' -%}
-    {%- for block in section.blocks -%}
-      {%- if block.type == 'newsletter' -%}
-        {%- assign footer_item = 'site-footer__item--one-quarter' -%}
-        {%- break -%}
-      {%- endif -%}
-    {%- endfor -%}
   {%- when 4 -%}
     {%- assign footer_item = 'site-footer__item--one-quarter' -%}
   {%- when 5 -%}
@@ -139,194 +133,214 @@
 
 <footer class="site-footer" role="contentinfo" data-section-id="{{ section.id }}" data-section-type="footer-section">
   
-      {%- for block in section.blocks -%}
-        {%- case block.type -%}
-          {%- when 'newsletter' -%}
+  <div class="site-footer__newsletter-container">
+    <div class="page-width">
+      <div class="site-footer__content">
 
-          <div class="site-footer__newsletter-container">
-            <div class="page-width">
-              <div class="site-footer__content">
-
-                <div class="site-footer__item
-                            {% if section.blocks.size == 1 %} site-footer__item--center{% endif %}
-                            {{ footer_item }}
-                            {% if block.type == 'newsletter' and section.blocks.size == 3 %}site-footer-newsletter__one-half{% endif %}"
-                    {{ block.shopify_attributes }}>
-                  <div class="site-footer__item-inner site-footer__item-inner--{{ block.type }}">
-
-                    {%- if block.settings.title -%}
-                      <p class="h4">{{ block.settings.title | escape }}</p>
-                    {%- endif -%}
-
-                    {%- if block.settings.newsletter_text -%}
-                      {{ block.settings.newsletter_text }}
-                    {%- endif -%}
-
-                    <div class="site-footer__newsletter
-                              {% if section.blocks.size == 1 %} site-footer__single-block--centered{% endif %}">
-                      {%- assign formId = 'ContactFooter' -%}
-                      {% form 'customer', id: formId, novalidate: 'novalidate' %}
-                        {%- if form.posted_successfully? -%}
-                          <p class="form-message form-message--success" tabindex="-1" data-form-status>
-                            {{ 'general.newsletter_form.confirmation' | t }}
-                          </p>
-                        {%- endif -%}
-                        <input type="hidden" name="contact[tags]" value="newsletter">
-                        <div class="input-group {% if form.errors %} input-group--error{% endif %}">
-                          <input type="email"
-                            name="contact[email]"
-                            id="{{ formId }}-email"
-                            class="input-group__field newsletter__input{% if form.errors %} input--error{% endif %}"
-                            value="{{ form.email }}"
-                            placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}"
-                            aria-label="{{ 'general.newsletter_form.email_placeholder' | t }}"
-                            aria-required="true"
-                            required
-                            autocorrect="off"
-                            autocapitalize="off"
-                            {% if form.errors %}
-                              aria-invalid="true"
-                              aria-describedby="{{ formId }}-email-error"
-                              data-form-status
-                            {% endif %}>
-                          <span class="input-group__btn">
-                            <button type="submit" class="btn newsletter__submit" name="commit" id="Subscribe">
-                              <span class="newsletter__submit-text--large">{{ 'general.newsletter_form.submit' | t }}</span>
-                            </button>
-                          </span>
-                        </div>
-                        {% if form.errors contains 'email' %}
-                          <span id="{{ formId }}-email-error" class="input-error-message">
-                            <span class="visually-hidden">{{ 'general.accessibility.error' | t }} </span>
-                            {% include 'icon-error' %}
-                            <span class="site-footer__newsletter-error">{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}.</span>
-                          </span>
-                        {% endif %}
-                      {% endform %}
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
+        <div class="site-footer__item {{ footer_item }}">
+          <div class="site-footer__item-inner">
+            <p class="h4">{{ section.settings.newsletter_header | escape }}</p>
+            {{ section.settings.newsletter_text_a }}
           </div>
-
-        {%- endcase -%}
-      {%- endfor -%}
-    
-
-  <div class="page-width">
-    <div class="grid">
-      {% for block in section.blocks %}
-        <!-- output block content -->
-        <div class="grid__item medium-up--one-sixth text-left">
-          1
         </div>
-      {% endfor %}
+
+        <div class="site-footer__item {{ footer_item }}">
+          <div class="site-footer__item-inner">
+
+            <div class="site-footer__newsletter">
+              {%- assign formId = 'ContactFooter' -%}
+              {% form 'customer', id: formId, novalidate: 'novalidate' %}
+                {%- if form.posted_successfully? -%}
+                  <p class="form-message form-message--success" tabindex="-1" data-form-status>
+                    {{ 'general.newsletter_form.confirmation' | t }}
+                  </p>
+                {%- endif -%}
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                <div class="input-group {% if form.errors %} input-group--error{% endif %}">
+                  <input type="email"
+                    name="contact[email]"
+                    id="{{ formId }}-email"
+                    class="input-group__field newsletter__input{% if form.errors %} input--error{% endif %}"
+                    value="{{ form.email }}"
+                    placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}"
+                    aria-label="{{ 'general.newsletter_form.email_placeholder' | t }}"
+                    aria-required="true"
+                    required
+                    autocorrect="off"
+                    autocapitalize="off"
+                    {% if form.errors %}
+                      aria-invalid="true"
+                      aria-describedby="{{ formId }}-email-error"
+                      data-form-status
+                    {% endif %}>
+                  <span class="input-group__btn">
+                    <button type="submit" class="btn newsletter__submit" name="commit" id="Subscribe">
+                      <span class="newsletter__submit-text--large">{{ 'general.newsletter_form.submit' | t }}</span>
+                    </button>
+                  </span>
+                </div>
+                {% if form.errors contains 'email' %}
+                  <span id="{{ formId }}-email-error" class="input-error-message">
+                    <span class="visually-hidden">{{ 'general.accessibility.error' | t }} </span>
+                    {% include 'icon-error' %}
+                    <span class="site-footer__newsletter-error">{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}.</span>
+                  </span>
+                {% endif %}
+                
+              {% endform %}
+            </div>
+            
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 
-  {%- assign socials = "Facebook Twitter Pinterest Instagram Tumblr Snapchat YouTube Vimeo" | split: ' ' -%}
+  <div class="site-footer__links-container">
+    <div class="page-width">
+      <div class="grid">
 
-  <div class="page-width">
-    <div class="grid grid--no-gutters small--text-center grid--footer-float-right">
-      {%- if show_selectors -%}
-        <div class="grid__item one-half small--one-whole">
-          {%- form 'localization', class: 'selectors-form' -%}
-            {%- if locale_selector -%}
-              <div class="selectors-form__item">
-                <h2 class="visually-hidden" id="lang-heading">
-                  {{ 'general.language.dropdown_label' | t }}
-                </h2>
-
-                <div class="disclosure" data-disclosure-locale>
-                  <button type="button" class="disclosure__toggle" aria-expanded="false" aria-controls="lang-list" aria-describedby="lang-heading" data-disclosure-toggle>
-                    {{ form.current_locale.endonym_name }}
-                  </button>
-                  <ul id="lang-list" class="disclosure-list" data-disclosure-list>
-                    {% for locale in form.available_locales %}
-                      <li class="disclosure-list__item {% if locale.iso_code == form.current_locale.iso_code %}disclosure-list__item--current{% endif %}">
-                        <a class="disclosure-list__option" href="#" lang="{{ locale.iso_code }}" {% if locale.iso_code == form.current_locale.iso_code %}aria-current="true"{% endif %} data-value="{{ locale.iso_code }}" data-disclosure-option>
-                          {{ locale.endonym_name }}
-                        </a>
-                      </li>
-                    {%- endfor -%}
-                  </ul>
-                  <input type="hidden" name="locale_code" id="LocaleSelector" value="{{ form.current_locale.iso_code }}" data-disclosure-input/>
-                </div>
-              </div>
+        {%- for block in section.blocks -%} 
+          <!-- output block content -->
+          <div class="grid__item medium-up--one-fifth text-left">
+            {%- if block.settings.title -%}
+                <p class="h4">{{ block.settings.title | escape }}</p>
             {%- endif -%}
-
-            {%- if currency_selector -%}
-              <div class="selectors-form__item">
-                <h2 class="visually-hidden" id="currency-heading">
-                  {{ 'general.currency.dropdown_label' | t }}
-                </h2>
-
-                <div class="disclosure" data-disclosure-currency>
-                  <button type="button" class="disclosure__toggle" aria-expanded="false" aria-controls="currency-list" aria-describedby="currency-heading" data-disclosure-toggle>
-                    {{ form.current_currency.iso_code }} {%- if form.current_currency.symbol -%}{{ form.current_currency.symbol }}{%- endif -%}
-                  </button>
-                  <ul id="currency-list" class="disclosure-list" data-disclosure-list>
-                    {% for currency in form.available_currencies %}
-                      <li class="disclosure-list__item {% if currency.iso_code == form.current_currency.iso_code %}disclosure-list__item--current{% endif %}">
-                        <a class="disclosure-list__option" href="#" {% if currency.iso_code == form.current_currency.iso_code %}aria-current="true"{% endif %} data-value="{{ currency.iso_code }}" data-disclosure-option>
-                          {{ currency.iso_code }} {%- if currency.symbol -%}{{ currency.symbol }}{%- endif -%}
-                        </a>
-                      </li>
-                    {%- endfor -%}
-                  </ul>
-                  <input type="hidden" name="currency_code" id="CurrencySelector" value="{{ form.current_currency.iso_code }}" data-disclosure-input/>
-                </div>
-              </div>
+            {%- if block.settings.text != blank -%}
+              {{ block.settings.text }}
             {%- endif -%}
-          {%- endform -%}
-        </div>
-      {%- else -%}
-        <div class="grid__item small--hide {{ payment_width_class }} {% if show_payment_icons %}site-footer-item-center-vertically{% endif %}">{{ payment_icon_markup }}</div>
-      {%- endif -%}
+          </div>
+        {% endfor %}
 
-      <div class="grid__item small--one-whole medium-up--one-half {{ copyright_show_class }} site-footer-item-tall site-footer-item-align-left">
-        <small class="site-footer__copyright-content">&copy; {{ shop.name | link_to: routes.root_url }} {{ 'now' | date: "%Y" }} </small>
-      </div>
+        {%- assign socials = "Facebook Twitter Pinterest Instagram Tumblr Snapchat YouTube Vimeo" | split: ' ' -%}
 
-      <div class="grid__item {% if show_selectors or show_payment_icons %}one-half{% endif %} small--one-whole medium-up--one-half site-footer-item-tall">
         {%- if social_icons -%}
-          <ul class="list--inline site-footer__social-icons social-icons site-footer__icon-list">
-            {%- for social in socials -%}
-              {%- assign social_link = social | prepend: 'social_' | append: '_link' | downcase -%}
-              {%- assign icon_link = social | prepend: 'icon-' | downcase -%}
-              {%- if settings[social_link] != blank -%}
-                <li class="social-icons__item">
-                  <a class="social-icons__link" href="{{ settings[social_link] | escape }}" aria-describedby="a11y-external-message">
-                    {%- include icon_link -%}
-                    <span class="icon__fallback-text">{{ social }}</span>
-                  </a>
-                </li>
-              {%- endif -%}
-            {%- endfor -%}
-          </ul>
+          <div class="grid__item medium-up--one-fifth text-left">
+            <p class="h4">Follow us</p>
+            <ul class="list--inline site-footer__social-icons social-icons site-footer__icon-list">
+              {%- for social in socials -%}
+                {%- assign social_link = social | prepend: 'social_' | append: '_link' | downcase -%}
+                {%- assign icon_link = social | prepend: 'icon-' | downcase -%}
+                {%- if settings[social_link] != blank -%}
+                  <li class="social-icons__item">
+                    <a class="social-icons__link" href="{{ settings[social_link] | escape }}" aria-describedby="a11y-external-message">
+                      {%- include icon_link -%}
+                      <span class="icon__fallback-text">{{ social }}</span>
+                    </a>
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </div>
         {%- else -%}
           <div class="small--hide site-footer-item-align-right {% if show_selectors or show_payment_icons %}site-footer-item-center-vertically{% endif %}">
             <small class="site-footer__copyright-content">&copy; {{ 'now' | date: "%Y" }}, {{ shop.name | link_to: routes.root_url }}</small>
             <small class="site-footer__copyright-content site-footer__copyright-content-powered-by">{{ powered_by_link }}</small>
           </div>
         {%- endif -%}
+
       </div>
+    </div>
+  </div>
 
-      {%- if show_selectors -%}
-        <div class="grid__item small--hide {{ payment_width_class }}">{{ payment_icon_markup }}</div>
-      {%- endif -%}
+  <div class="site-footer__copyright-container">
+    <div class="page-width">
+      <div class="grid grid--no-gutters small--text-center grid--footer-float-right">
+        {%- if show_selectors -%}
+          <div class="grid__item one-half small--one-whole">
+            {%- form 'localization', class: 'selectors-form' -%}
+              {%- if locale_selector -%}
+                <div class="selectors-form__item">
+                  <h2 class="visually-hidden" id="lang-heading">
+                    {{ 'general.language.dropdown_label' | t }}
+                  </h2>
 
-      <div class="grid__item medium-up--hide {{ payment_width_class }} small--one-whole">{{ payment_icon_markup }}</div>
+                  <div class="disclosure" data-disclosure-locale>
+                    <button type="button" class="disclosure__toggle" aria-expanded="false" aria-controls="lang-list" aria-describedby="lang-heading" data-disclosure-toggle>
+                      {{ form.current_locale.endonym_name }}
+                    </button>
+                    <ul id="lang-list" class="disclosure-list" data-disclosure-list>
+                      {% for locale in form.available_locales %}
+                        <li class="disclosure-list__item {% if locale.iso_code == form.current_locale.iso_code %}disclosure-list__item--current{% endif %}">
+                          <a class="disclosure-list__option" href="#" lang="{{ locale.iso_code }}" {% if locale.iso_code == form.current_locale.iso_code %}aria-current="true"{% endif %} data-value="{{ locale.iso_code }}" data-disclosure-option>
+                            {{ locale.endonym_name }}
+                          </a>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                    <input type="hidden" name="locale_code" id="LocaleSelector" value="{{ form.current_locale.iso_code }}" data-disclosure-input/>
+                  </div>
+                </div>
+              {%- endif -%}
 
-      {%- if social_icons and show_selectors -%}
-        <div class="grid__item small--hide site-footer-item-align-right {% if show_payment_icons %}one-half{% endif %}">
-          <small class="site-footer__copyright-content">&copy; {{ 'now' | date: "%Y" }}, {{ shop.name | link_to: routes.root_url }}</small>
-          <small class="site-footer__copyright-content site-footer__copyright-content--powered-by">{{ powered_by_link }}</small>
+              {%- if currency_selector -%}
+                <div class="selectors-form__item">
+                  <h2 class="visually-hidden" id="currency-heading">
+                    {{ 'general.currency.dropdown_label' | t }}
+                  </h2>
+
+                  <div class="disclosure" data-disclosure-currency>
+                    <button type="button" class="disclosure__toggle" aria-expanded="false" aria-controls="currency-list" aria-describedby="currency-heading" data-disclosure-toggle>
+                      {{ form.current_currency.iso_code }} {%- if form.current_currency.symbol -%}{{ form.current_currency.symbol }}{%- endif -%}
+                    </button>
+                    <ul id="currency-list" class="disclosure-list" data-disclosure-list>
+                      {% for currency in form.available_currencies %}
+                        <li class="disclosure-list__item {% if currency.iso_code == form.current_currency.iso_code %}disclosure-list__item--current{% endif %}">
+                          <a class="disclosure-list__option" href="#" {% if currency.iso_code == form.current_currency.iso_code %}aria-current="true"{% endif %} data-value="{{ currency.iso_code }}" data-disclosure-option>
+                            {{ currency.iso_code }} {%- if currency.symbol -%}{{ currency.symbol }}{%- endif -%}
+                          </a>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                    <input type="hidden" name="currency_code" id="CurrencySelector" value="{{ form.current_currency.iso_code }}" data-disclosure-input/>
+                  </div>
+                </div>
+              {%- endif -%}
+            {%- endform -%}
+          </div>
+        {%- else -%}
+          <div class="grid__item small--hide {{ payment_width_class }} {% if show_payment_icons %}site-footer-item-center-vertically{% endif %}">{{ payment_icon_markup }}</div>
+        {%- endif -%}
+
+        <div class="grid__item small--one-whole medium-up--one-half {{ copyright_show_class }} site-footer-item-tall site-footer-item-align-left">
+          <small class="site-footer__copyright-content">&copy; {{ shop.name | link_to: routes.root_url }} {{ 'now' | date: "%Y" }} </small>
+          <small class="site-footer__copyright-content">{{ section.settings.copyright_text_a }}</small>
+          <small class="site-footer__copyright-content">{{ section.settings.copyright_text_b }}</small>
         </div>
-      {%- endif -%}
 
+        <div class="grid__item one-half small--one-whole medium-up--one-half site-footer-item-tall site-footer-item-align-right">
+          {% if section.settings.footer_logo_a %}
+          <a href="{{ section.settings.footer_logo_link_a }}">
+            <img class="lazyload js"
+              src="{{ section.settings.footer_logo_a | img_url: '100x100' }}"
+              alt="{{ section.settings.footer_logo_a.alt | escape }}">
+          </a>
+          {% endif %}
+          {% if section.settings.footer_logo_b %}
+          <a href="{{ section.settings.footer_logo_link_b }}">
+            <img class="lazyload js"
+              src="{{ section.settings.footer_logo_b | img_url: '100x100' }}"
+              alt="{{ section.settings.footer_logo_b.alt | escape }}">
+          </a>
+          {% endif %}
+          {% if section.settings.footer_logo_c %}
+          <a href="{{ section.settings.footer_logo_link_c }}">
+            <img class="lazyload js"
+              src="{{ section.settings.footer_logo_c | img_url: '100x100' }}"
+              alt="{{ section.settings.footer_logo_c.alt | escape }}">
+          </a>
+          {% endif %}
+        </div>
+
+        {%- if show_selectors -%}
+          <div class="grid__item small--hide {{ payment_width_class }}">{{ payment_icon_markup }}</div>
+        {%- endif -%}
+
+        <div class="grid__item medium-up--hide {{ payment_width_class }} small--one-whole">{{ payment_icon_markup }}</div>
+       
+
+      </div>
     </div>
   </div>
 </footer>
@@ -357,6 +371,131 @@
   },
   "max_blocks": 4,
   "settings": [
+    {
+      "type": "header",
+      "content": {
+        "da": "Tilmelding til nyhedsbrev",
+        "de": "Newsletter-Anmeldung",
+        "en": "Newsletter signup",
+        "es": "Suscripción al boletín",
+        "fi": "Uutiskirjeen tilaus",
+        "fr": "Inscription",
+        "hi": "न्यूज़लेटर साइनअप",
+        "it": "Iscriviti alla Newsletter",
+        "ja": "ニュースレターの登録",
+        "ko": "뉴스레터 신청",
+        "nb": "Registrering for nyhetsbrev",
+        "nl": "Nieuwsbriefaanmelding",
+        "pt-BR": "Assinatura da newsletter",
+        "pt-PT": "Registo na newsletter",
+        "sv": "Nyhetsbrevsregistrering",
+        "th": "การสมัครรับจดหมายข่าว",
+        "zh-CN": "新闻通讯注册",
+        "zh-TW": "訂閱電子報"
+      },
+      "info": {
+        "da": "Abonnenter bliver føjet til [kundelisten](/admin/customers?query=&accepts_marketing=1) for \"accepterer markedsføring\".",
+        "de": "Abonnenten werden zu Ihrer Liste „akzeptiert Marketingmaterial“ hinzugefügt [Kundenliste.](/admin/customers?query=&accepts_marketing=1)",
+        "en": "Subscribers will be added to your “accepts marketing” [customer list.](/admin/customers?query=&accepts_marketing=1)",
+        "es": "Se añadirá los suscriptores a tu [lista de clientes.](/admin/customers?query=&accepts_marketing=1) \"acepta marketing\".",
+        "fi": "Tilaajat lisätään \"hyväksyy markkinointi\" [-asiakasluetteloosi. ](/admin/customers?query=&accepts_marketing=1)",
+        "fr": "Les abonnés seront ajoutés à votre [liste de clients](/admin/customers?query=&accepts_marketing=1) « Accepte le marketing ».",
+        "hi": "सदस्यों को आपकी “मार्केटिंग स्वीकार करता है” [customer list.](/admin/customers?query=&accepts_marketing=1) में जोड़ दिया जाएगा",
+        "it": "Gli iscritti verranno aggiunti al tuo [elenco clienti.](/admin/customers?query=&accepts_marketing=1) «accetta marketing»",
+        "ja": "購読者は「マーケティングを受け入れる」[顧客リスト](/admin/customers?query=&accepts_marketing=1) に追加されます。",
+        "ko": "가입자가 \"마케팅 수락\" [고객 목록.](/admin/customers?query=&accepts_marketing=1)에 추가됩니다.",
+        "nb": "Abonnenter vil bli lagt til i «aksepterer markedsføring» [kundeliste.](/admin/customers?query=&accepts_marketing=1)",
+        "nl": "Abonnees worden toegevoegd aan uw \"accepteert marketing\" [klantenlijst.](/admin/customers?query=&accepts_marketing=1)",
+        "pt-BR": "Os assinantes serão adicionados à “aceita marketing” [lista de clientes. ](/admin/customers?query=&accepts_marketing=1)",
+        "pt-PT": "Os subscritores serão adicionados à sua lista de \"aceitam marketing\" [lista de clientes.](/admin/customers?query=&accepts_marketing=1)",
+        "sv": "Prenumeranter läggs till i din \"accepterar marknadsföring\" [kundlista. ](/admin/customers?query=&accepts_marketing=1)",
+        "th": "ระบบจะเพิ่มผู้สมัครใช้งานไปยังส่วน “ยอมรับการตลาด” ของคุณ [รายชื่อลูกค้า](/admin/customers?query=&accepts_marketing=1)",
+        "zh-CN": "订阅者将被添加到您的“接受营销”[客户列表](/admin/customers?query=&accepts_marketing=1)中。",
+        "zh-TW": "系統會將訂閱者新增至您的「接受行銷」[客戶清單。](/admin/customers?query=&accepts_marketing=1)"
+      }
+    },
+    {
+      "type": "text",
+      "id": "newsletter_header",
+      "label": {
+        "da": "Overskrift",
+        "de": "Überschrift",
+        "en": "Heading",
+        "es": "Título",
+        "fi": "Otsake",
+        "fr": "Titre",
+        "hi": "शीर्षक",
+        "it": "Heading",
+        "ja": "見出し",
+        "ko": "제목",
+        "nb": "Overskrift",
+        "nl": "Kop",
+        "pt-BR": "Título",
+        "pt-PT": "Título",
+        "sv": "Rubrik",
+        "th": "ส่วนหัว",
+        "zh-CN": "标题",
+        "zh-TW": "標題"
+      },
+      "default": "Become a honey lover"
+    },
+    {
+      "type": "richtext",
+      "id": "newsletter_text_a",
+      "label": "Text",
+      "default": "<p>Stay in the loop to find out what's new.</p>"
+    },
+    {
+    "type": "header",
+      "content": {
+        "en": "Copyright Info"
+      }
+    },
+    {
+      "type": "richtext",
+      "id": "copyright_text_a",
+      "label": "Text",
+      "default": "<p>Add link here.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "copyright_text_b",
+      "label": "Text",
+      "default": "<p>Add link here.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "footer_logo_a",
+      "label": "Logo image"
+    },
+    {
+      "type": "text",
+      "id": "footer_logo_link_a",
+      "label": "Logo link",
+      "default": "Add link url here."
+    },
+    {
+      "type": "image_picker",
+      "id": "footer_logo_b",
+      "label": "Logo image"
+    },
+    {
+      "type": "text",
+      "id": "footer_logo_link_b",
+      "label": "Logo link",
+      "default": "Add link url here."
+    },
+    {
+      "type": "image_picker",
+      "id": "footer_logo_c",
+      "label": "Logo image"
+    },
+    {
+      "type": "text",
+      "id": "footer_logo_link_c",
+      "label": "Logo link",
+      "default": "Add link url here."
+    },
     {
       "type": "header",
       "content": {
@@ -617,17 +756,6 @@
   ],
   "blocks": [
     {
-      "type": "block-2",
-      "name": "Block 2",
-      "settings": [
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Title"
-        }
-      ]
-    },
-    {
       "type": "link_list",
       "name": {
         "da": "Menu",
@@ -768,24 +896,7 @@
             "zh-TW": "標題"
           },
           "default": {
-            "da": "Fortæl om din virksomhed",
-            "de": "Reden Sie über Ihr Unternehmen",
-            "en": "Talk about your business",
-            "es": "Habla sobre tu negocio",
-            "fi": "Kerro yrityksestäsi",
-            "fr": "Parlez de votre entreprise",
-            "hi": "अपने व्यवसाय के बारे में बात करें",
-            "it": "Parla della tua attività commerciale",
-            "ja": "あなたのビジネスについて語る",
-            "ko": "비즈니스에 대한 이야기하기",
-            "nb": "Snakk om bedriften din",
-            "nl": "Vertel over je bedrijf",
-            "pt-BR": "Fale sobre o seu negócio",
-            "pt-PT": "Fale sobre o seu negócio",
-            "sv": "Prata om ditt företag",
-            "th": "พูดถึงธุรกิจของคุณ",
-            "zh-CN": "介绍您的业务",
-            "zh-TW": "描述您的商家"
+            "en": "Shop"
           }
         },
         {
@@ -812,121 +923,8 @@
             "zh-TW": "文字"
           },
           "default": {
-            "da": "<p>Del butiksoplysninger, reklamer eller brandindhold med dine kunder.</p>",
-            "de": "<p>Teilen Sie Ihre Shop-Details, Werbeaktionen oder Markeninhalte mit Ihren Kunden.</p>",
-            "en": "<p>Share store details, promotions, or brand content with your customers.</p>",
-            "es": "<p>Comparte detalles de la tienda, promociones o contenido de la marca con tus clientes.</p>",
-            "fi": "<p>Jaa myymälän tiedot, tarjoukset tai brändin sisältö asiakkaittesi kanssa.</p>",
-            "fr": "<p>Partagez les détails de la boutique, les promotions ou le contenu de la marque avec vos clients.</p>",
-            "hi": "<p>अपने ग्राहकों के साथ स्टोर विवरण, प्रचार या ब्रांड सामग्री साझा करें.</p>",
-            "it": "<p>Condividi dettagli del negozio, promozioni o contenuti del brand con i clienti.</p>",
-            "ja": "<p>ストア詳細、プロモーション、ブランドのコンテンツをお客様と共有する。</p>",
-            "ko": "<p>스토어 세부 정보, 프로모션 또는 브랜드 콘텐츠를 고객과 공유하십시오.</p>",
-            "nb": "<p>Del butikkdetaljer, kampanjer eller merkevareinnhold med kundene dine.</p>",
-            "nl": "<p>Deel winkeldetails, promoties of merkcontent met uw klanten.</p>",
-            "pt-BR": "<p>Compartilhe informações da loja, promoções ou conteúdo da marca com seus clientes.</p>",
-            "pt-PT": "<p>Partilhe detalhes da loja, promoções ou conteúdo de marca com os seus clientes.</p>",
-            "sv": "<p>Dela butikens detaljer, kampanjer eller varumärkesinnehåll med dina kunder.</p>",
-            "th": "<p>แชร์รายละเอียดร้านค้า โปรโมชัน หรือเนื้อหาแบรนด์กับลูกค้าของคุณ</p>",
-            "zh-CN": "<p>与您的客户共享商店详细信息、促销信息或品牌内容。</p>",
-            "zh-TW": "<p>與顧客分享商店的詳細資訊、宣傳活動或品牌內容。</p>"
+            "en": "<p>Add links to pages here.</p>"
           }
-        }
-      ]
-    },
-    {
-      "type": "newsletter",
-      "limit": 1,
-      "name": {
-        "da": "Tilmelding til nyhedsbrev",
-        "de": "Newsletter-Anmeldung",
-        "en": "Newsletter signup",
-        "es": "Suscripción al boletín",
-        "fi": "Uutiskirjeen tilaus",
-        "fr": "Inscription",
-        "hi": "न्यूज़लेटर साइनअप",
-        "it": "Iscriviti alla Newsletter",
-        "ja": "ニュースレターの登録",
-        "ko": "뉴스레터 신청",
-        "nb": "Registrering for nyhetsbrev",
-        "nl": "Nieuwsbriefaanmelding",
-        "pt-BR": "Assinatura da newsletter",
-        "pt-PT": "Registo na newsletter",
-        "sv": "Nyhetsbrevsregistrering",
-        "th": "การสมัครรับจดหมายข่าว",
-        "zh-CN": "新闻通讯注册",
-        "zh-TW": "訂閱電子報"
-      },
-      "settings": [
-        {
-          "type": "text",
-          "id": "title",
-          "label": {
-            "da": "Overskrift",
-            "de": "Überschrift",
-            "en": "Heading",
-            "es": "Título",
-            "fi": "Otsake",
-            "fr": "Titre",
-            "hi": "शीर्षक",
-            "it": "Heading",
-            "ja": "見出し",
-            "ko": "제목",
-            "nb": "Overskrift",
-            "nl": "Kop",
-            "pt-BR": "Título",
-            "pt-PT": "Título",
-            "sv": "Rubrik",
-            "th": "ส่วนหัว",
-            "zh-CN": "标题",
-            "zh-TW": "標題"
-          },
-          "info": {
-            "da": "Abonnenter bliver føjet til [kundelisten](/admin/customers?query=&accepts_marketing=1) for \"accepterer markedsføring\".",
-            "de": "Abonnenten werden zu Ihrer Liste „akzeptiert Marketingmaterial“ hinzugefügt [Kundenliste.](/admin/customers?query=&accepts_marketing=1)",
-            "en": "Subscribers will be added to your “accepts marketing” [customer list.](/admin/customers?query=&accepts_marketing=1)",
-            "es": "Se añadirá los suscriptores a tu [lista de clientes.](/admin/customers?query=&accepts_marketing=1) \"acepta marketing\".",
-            "fi": "Tilaajat lisätään \"hyväksyy markkinointi\" [-asiakasluetteloosi. ](/admin/customers?query=&accepts_marketing=1)",
-            "fr": "Les abonnés seront ajoutés à votre [liste de clients](/admin/customers?query=&accepts_marketing=1) « Accepte le marketing ».",
-            "hi": "सदस्यों को आपकी “मार्केटिंग स्वीकार करता है” [customer list.](/admin/customers?query=&accepts_marketing=1) में जोड़ दिया जाएगा",
-            "it": "Gli iscritti verranno aggiunti al tuo [elenco clienti.](/admin/customers?query=&accepts_marketing=1) «accetta marketing»",
-            "ja": "購読者は「マーケティングを受け入れる」[顧客リスト](/admin/customers?query=&accepts_marketing=1) に追加されます。",
-            "ko": "가입자가 \"마케팅 수락\" [고객 목록.](/admin/customers?query=&accepts_marketing=1)에 추가됩니다.",
-            "nb": "Abonnenter vil bli lagt til i «aksepterer markedsføring» [kundeliste.](/admin/customers?query=&accepts_marketing=1)",
-            "nl": "Abonnees worden toegevoegd aan uw \"accepteert marketing\" [klantenlijst.](/admin/customers?query=&accepts_marketing=1)",
-            "pt-BR": "Os assinantes serão adicionados à “aceita marketing” [lista de clientes. ](/admin/customers?query=&accepts_marketing=1)",
-            "pt-PT": "Os subscritores serão adicionados à sua lista de \"aceitam marketing\" [lista de clientes.](/admin/customers?query=&accepts_marketing=1)",
-            "sv": "Prenumeranter läggs till i din \"accepterar marknadsföring\" [kundlista. ](/admin/customers?query=&accepts_marketing=1)",
-            "th": "ระบบจะเพิ่มผู้สมัครใช้งานไปยังส่วน “ยอมรับการตลาด” ของคุณ [รายชื่อลูกค้า](/admin/customers?query=&accepts_marketing=1)",
-            "zh-CN": "订阅者将被添加到您的“接受营销”[客户列表](/admin/customers?query=&accepts_marketing=1)中。",
-            "zh-TW": "系統會將訂閱者新增至您的「接受行銷」[客戶清單。](/admin/customers?query=&accepts_marketing=1)"
-          },
-          "default": {
-            "da": "Nyhedsbrev",
-            "de": "Newsletter",
-            "en": "Newsletter",
-            "es": "Boletín",
-            "fi": "Uutiskirje",
-            "fr": "Newsletter",
-            "hi": "न्यूज़लेटर",
-            "it": "Newsletter",
-            "ja": "ニュースレター",
-            "ko": "뉴스레터",
-            "nb": "Nyhetsbrev",
-            "nl": "Nieuwsbrief",
-            "pt-BR": "Newsletter",
-            "pt-PT": "Newsletter",
-            "sv": "Nyhetsbrev",
-            "th": "จดหมายข่าว",
-            "zh-CN": "新闻通讯",
-            "zh-TW": "電子報"
-          }
-        },
-        {
-          "type": "richtext",
-          "id": "newsletter_text",
-          "label": "Text",
-          "default": "<p>Stay in the loop to find out what's new.</p>"
         }
       ]
     }
