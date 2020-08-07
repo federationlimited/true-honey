@@ -126,7 +126,15 @@
 
         <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
 
-        <p>{{ product.variants.first.weight | weight_with_unit }}</p>
+        <p> {{ product.selected_variant.id }} </p>
+
+        {% for variant in product.variants %}
+            {% if variant.selected %}
+            <p> Option 1: {{ variant.option1 }} </p>
+            {% endif %}
+        {% endfor %}
+
+        {% comment %} <p>{{ product.variants.first.weight | weight_with_unit }}</p> {% endcomment %}
 
         <div class="product__price">
           {% include 'product-price', variant: current_variant, show_vendor: section.settings.show_vendor %}
