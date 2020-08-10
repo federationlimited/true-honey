@@ -83,16 +83,7 @@
     border-bottom: 1px solid {{ section.settings.color_footer_bg | color_darken: 10 }};
   }
 
-  .site-footer p,
-  .site-footer__linklist-item a,
-  .site-footer__rte a,
-  .site-footer h4,
-  .site-footer small,
-  .site-footer__copyright-content a,
-  .site-footer__newsletter-error,
-  .site-footer__social-icons .social-icons__link {
-    color: {{ section.settings.color_footer_text }};
-  }
+
 
   .site-footer {
     color: {{ section.settings.color_footer_text }};
@@ -106,12 +97,11 @@
   .site-footer__rte a:hover,
   .site-footer__linklist-item a:hover,
   .site-footer__copyright-content a:hover {
-    color: {{ footer_text_color_hover }};
-    border-bottom: 1px solid {{ footer_text_color_hover }};
+    color: #847453;
   }
 
   .site-footer__social-icons .social-icons__link:hover {
-    color: {{ footer_text_color_hover }};
+    color: #847453;
   }
 </style>
 
@@ -139,7 +129,7 @@
 
         <div class="site-footer__item {{ footer_item }}">
           <div class="site-footer__item-inner">
-            <p class="h4">{{ section.settings.newsletter_header | escape }}</p>
+            <h2 class="h2">{{ section.settings.newsletter_header | escape }}</h2>
             {{ section.settings.newsletter_text_a }}
           </div>
         </div>
@@ -303,31 +293,31 @@
           <div class="grid__item small--hide {{ payment_width_class }} {% if show_payment_icons %}site-footer-item-center-vertically{% endif %}">{{ payment_icon_markup }}</div>
         {%- endif -%}
 
-        <div class="grid__item small--one-whole medium-up--one-half {{ copyright_show_class }} site-footer-item-tall site-footer-item-align-left">
+        <div class="grid__item small--one-whole large-up--one-half {{ copyright_show_class }} site-footer-item-tall site-footer-item-align-left">
           <small class="site-footer__copyright-content">&copy; {{ shop.name | link_to: routes.root_url }} {{ 'now' | date: "%Y" }} </small>
           <small class="site-footer__copyright-content">{{ section.settings.copyright_text_a }}</small>
           <small class="site-footer__copyright-content">{{ section.settings.copyright_text_b }}</small>
         </div>
 
-        <div class="grid__item one-half small--one-whole medium-up--one-half site-footer-item-tall site-footer-item-align-right">
+        <div class="grid__item one-half small--one-whole large-up--one-half site-footer-item-tall site-footer-item-align-right">
           {% if section.settings.footer_logo_a %}
-          <a href="{{ section.settings.footer_logo_link_a }}">
+          <a href="{{ section.settings.footer_logo_link_a }}" target="_blank" class="site-footer__footer-logo-link">
             <img class="lazyload js"
-              src="{{ section.settings.footer_logo_a | img_url: '100x100' }}"
+              src="{{ section.settings.footer_logo_a | img_url: '78x' }}"
               alt="{{ section.settings.footer_logo_a.alt | escape }}">
           </a>
           {% endif %}
           {% if section.settings.footer_logo_b %}
-          <a href="{{ section.settings.footer_logo_link_b }}">
+          <a href="{{ section.settings.footer_logo_link_b }}" target="_blank" class="site-footer__footer-logo-link">
             <img class="lazyload js"
-              src="{{ section.settings.footer_logo_b | img_url: '100x100' }}"
+              src="{{ section.settings.footer_logo_b | img_url: '141x' }}"
               alt="{{ section.settings.footer_logo_b.alt | escape }}">
           </a>
           {% endif %}
           {% if section.settings.footer_logo_c %}
-          <a href="{{ section.settings.footer_logo_link_c }}">
+          <a href="{{ section.settings.footer_logo_link_c }}" target="_blank" class="site-footer__footer-logo-link">
             <img class="lazyload js"
-              src="{{ section.settings.footer_logo_c | img_url: '100x100' }}"
+              src="{{ section.settings.footer_logo_c | img_url: '111x' }}"
               alt="{{ section.settings.footer_logo_c.alt | escape }}">
           </a>
           {% endif %}

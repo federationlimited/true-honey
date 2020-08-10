@@ -378,8 +378,8 @@ $widescreen: 'widescreen';
     - Default column widths: $grid-breakpoint-has-widths: ($small, $medium-up);
     - Default is no push classes
 ==============================================================================*/
-$grid-breakpoint-has-widths: ($small, $medium-up);
-$grid-breakpoint-has-push: ($small, $medium-up);
+$grid-breakpoint-has-widths: ($small, $medium-up, $large-up, $widescreen);
+$grid-breakpoint-has-push: ($small, $medium-up, $large-up, $widescreen);
 
 /*================ Color Variables ================*/
 
@@ -1435,7 +1435,7 @@ h6 {
   font-family: acumin-pro, sans-serif;
   font-style: $font-style-header;
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 1;
   overflow-wrap: break-word;
   word-wrap: break-word;
 
