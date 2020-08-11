@@ -14,6 +14,8 @@ $grid-gutter-mobile: 22px;
 /*================ typography ================*/
 
 .h1, .h2, .h3, .h4, .h5, .h6 {
+  text-transform: none;
+  letter-spacing: 0;
   &:after {
     content: "";
     background-image: url(https://cdn.shopify.com/s/files/1/0257/7331/0001/files/glyph.png?v=1597098893);
@@ -23,9 +25,15 @@ $grid-gutter-mobile: 22px;
   }
 }
 .h2 {
+  font-size: 60px;
+  margin-bottom: 25px;
+  &:after {
+    width: 10px;
+    height: 11px;
+  }
+}
+.h3 {
   font-size: 48px;
-  text-transform: none;
-  letter-spacing: 0;
   margin-bottom: 25px;
   &:after {
     width: 10px;
@@ -37,10 +45,12 @@ $grid-gutter-mobile: 22px;
 /*================ header.liquid ================*/
 
 .site-header {
+  position: relative;
+  z-index: 1;
   background-color: transparent;
   
   @media (min-width: $grid-medium) {
-    height: 140px;
+    // height: 140px;
   }
   .site-nav.list--inline li {
     @media (min-width: $grid-medium) {
@@ -57,13 +67,16 @@ $grid-gutter-mobile: 22px;
     text-transform: uppercase;
     font-size: 18px;
   }
+  .site-nav__dropdown {
+    background-color: #fff;
+  }
 }
 
 /*================ layout ================*/
 
 .page-container {
   @media (min-width: $grid-medium) {
-    margin-top: -140px;
+    // margin-top: -140px;
   }
 }
 
